@@ -1,4 +1,5 @@
 //Hunter Mills
+//Timi Aiyegbusi
 void setup() {
   // put your setup code here, to run once:
   pinMode(8, OUTPUT);
