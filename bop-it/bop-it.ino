@@ -22,15 +22,15 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   //maybe not necessary, should connect/disconnect from power
-  if(digitalRead(0)==HIGH) {
+  if(digitalRead(0) == HIGH) {
     lcd.setCursor ( 0, 0 );            
     lcd.print("       Bop-it       "); 
     lcd.setCursor ( 0, 1 );           
     lcd.print("Press btn to start"); 
-    if(digitalRead(1)==HIGH) {
+    if(digitalRead(1) == HIGH) {
       gameStarted = true;
     }
-    if(score==99) {
+    if(score == 99) {
       endGame();
     }
 
@@ -56,12 +56,13 @@ void endGame() {
 void emitCommand() {
   long command = random(1,3);
   bool inputPressedWithinInterval = false;
-  if(command==1) {
+  if(command == 1) {
     // TODO: announce command
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*input pressed*/1) {
+      if(/*TODO: check for input pressed*/1) {
         inputPressedWithinInterval = true;
+        break;
       }
     }
     if(inputPressedWithinInterval == true) {
@@ -79,12 +80,13 @@ void emitCommand() {
     }
     
   }
-  if(command==2) {
+  if(command == 2) {
     // TODO: announce command
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*input pressed*/1) {
+      if(/*TODO: check for input pressed*/1) {
         inputPressedWithinInterval = true;
+        break;
       }
     }
     if(inputPressedWithinInterval == true) {
@@ -101,12 +103,13 @@ void emitCommand() {
         endGame();
     }
   }
-  if(command==3) {
+  if(command == 3) {
     // TODO: announce command
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*input pressed*/1) {
+      if(/*TODO: check for input pressed*/1) {
         inputPressedWithinInterval = true;
+        break;
       }
     }
     if(inputPressedWithinInterval == true) {
