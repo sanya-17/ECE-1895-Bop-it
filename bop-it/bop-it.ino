@@ -8,15 +8,14 @@ int score;
 bool gameStarted;
 
 const int buzzer = 3; 
-const int testLed= 0;
 const int startButton = 1;
 const int buttonInput = 9;
 const int switchInput = 2;
+// TODO: Joystick input
 
 void setup() {
   lcd.init();
   lcd.backlight();   
-  pinMode(testLed, INPUT);
   pinMode(startButton, INPUT);
   pinMode(buzzer, OUTPUT);
   pinMode(buttonInput, INPUT);
@@ -48,9 +47,6 @@ void loop() {
 }
 
 void endGame() {
-  digitalWrite(testLed, HIGH);
-  delay(1000);
-  digitalWrite(testLed, LOW);
   lcd.clear();
   lcd.setCursor ( 0, 0 );            
   lcd.print("    Game Over     "); 
