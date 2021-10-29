@@ -3,31 +3,39 @@
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 int timeInterval;
+int timeIntervalDecrement;
 int score;
 bool gameStarted;
 
-// TODO: timeInterval and timeInterval decrement have to allow for 99 succesful attempts
+const int buzzer = 3; 
+const int testLed= 0;
+const int startButton = 1;
+const int buttonInput = 9;
+const int switchInput = 2;
 
 void setup() {
-  // put your setup code here, to run once:
-  lcd.init();  //initialize the lcd
-  lcd.backlight();  //open the backlight 
-  pinMode(0, INPUT); //on/off switch
-  pinMode(1, INPUT); //start game button
-  timeInterval = 3000;
+  lcd.init();
+  lcd.backlight();   
+  pinMode(testLed, INPUT);
+  pinMode(startButton, INPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(buttonInput, INPUT);
+  pinMode(switchInput, INPUT);
+  timeInterval = 10000;
+  timeIntervalDecrement = 100;
   score = 0;
   gameStarted = false;
 }
 
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  //maybe not necessary, should connect/disconnect from power
-  if(digitalRead(0) == HIGH) {
+    if(gameStarted==false) {
     lcd.setCursor ( 0, 0 );            
-    lcd.print("       Bop-it       "); 
+    lcd.print("     Bop-it       "); 
     lcd.setCursor ( 0, 1 );           
-    lcd.print("Press btn to start"); 
-    if(digitalRead(1) == HIGH) {
+    lcd.print("Push btn 2 start"); 
+    }
+    if(digitalRead(startButton) == HIGH) {
       gameStarted = true;
     }
     if(score == 99) {
@@ -37,87 +45,105 @@ void loop() {
     if(gameStarted == true) {
       emitCommand();
     }
-  }
 }
 
 void endGame() {
+  digitalWrite(testLed, HIGH);
+  delay(1000);
+  digitalWrite(testLed, LOW);
   lcd.clear();
   lcd.setCursor ( 0, 0 );            
-  lcd.print("     Game Over      "); 
-  // TODO: Center score, will be between 0 and 99
+  lcd.print("   Game Over      "); 
   lcd.setCursor ( 0, 1 );
   String scoreString = String(score);            
-  lcd.print(scoreString); 
+  lcd.print("    Score: " + scoreString); 
   score = 0;
-  timeInterval = 3000;
+  timeInterval = 10000;
   gameStarted = false;
+  delay(5000);
 }
 
-void emitCommand() {
+void emitCommand() {  
+  // TODO: inlcude joystick input i.e. random(1,4)
   long command = random(1,3);
   bool inputPressedWithinInterval = false;
+
+  // button
   if(command == 1) {
-    // TODO: announce command
+    tone(buzzer, 250,1000);
+    delay(1000);
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*TODO: check for input pressed*/1) {
+      if(digitalRead(buttonInput)==HIGH) {
         inputPressedWithinInterval = true;
         break;
       }
     }
     if(inputPressedWithinInterval == true) {
       score++;
-      timeInterval-= 250;
+      timeInterval-= timeIntervalDecrement;
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
-      lcd.print("      Success!      "); 
+      lcd.print("    Success!      ");
+      delay(1000);
+      lcd.clear(); 
     } else {
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
-      lcd.print("      Failure!      ");
+      lcd.print("    Failure!      ");
       delay(1000);
       endGame();
     }
     
   }
+  
+  // switch
   if(command == 2) {
-    // TODO: announce command
+    tone(buzzer, 500,1000);
+    delay(1000);
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*TODO: check for input pressed*/1) {
+      if(digitalRead(switchInput)==HIGH) {
         inputPressedWithinInterval = true;
         break;
       }
     }
     if(inputPressedWithinInterval == true) {
       score++;
-      timeInterval-= 250;
+      timeInterval-= timeIntervalDecrement;
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
-      lcd.print("      Success!      "); 
+      lcd.print("    Success!      "); 
+      delay(1000);
+      lcd.clear(); 
     } else {
         lcd.clear();
         lcd.setCursor ( 0, 0 );            
-        lcd.print("      Failure!      ");
+        lcd.print("    Failure!      ");
         delay(1000);
         endGame();
     }
   }
+
+  // joystick
   if(command == 3) {
     // TODO: announce command
+    tone(buzzer, 5000);
     unsigned long startTime = millis();
     while(millis() - startTime < timeInterval) {
-      if(/*TODO: check for input pressed*/1) {
+      if(/*TODO: read joystick input*/1) {
         inputPressedWithinInterval = true;
         break;
       }
     }
     if(inputPressedWithinInterval == true) {
       score++;
-      timeInterval-= 250;
+      timeInterval-= timeIntervalDecrement;
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
-      lcd.print("      Success!      "); 
+      lcd.print("      Success!      ");
+      delay(1000);
+      lcd.clear(); 
     } else {
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
@@ -126,4 +152,5 @@ void emitCommand() {
       endGame();
     }
   }
+  
 }
