@@ -53,7 +53,7 @@ void endGame() {
   digitalWrite(testLed, LOW);
   lcd.clear();
   lcd.setCursor ( 0, 0 );            
-  lcd.print("   Game Over      "); 
+  lcd.print("    Game Over     "); 
   lcd.setCursor ( 0, 1 );
   String scoreString = String(score);            
   lcd.print("    Score: " + scoreString); 
@@ -85,6 +85,9 @@ void emitCommand() {
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
       lcd.print("    Success!      ");
+      lcd.setCursor ( 0, 1 );
+      String scoreString = String(score);            
+      lcd.print("    Score: " + scoreString); 
       delay(1000);
       lcd.clear(); 
     } else {
@@ -114,6 +117,9 @@ void emitCommand() {
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
       lcd.print("    Success!      "); 
+      lcd.setCursor ( 0, 1 );
+      String scoreString = String(score);            
+      lcd.print("    Score: " + scoreString); 
       delay(1000);
       lcd.clear(); 
     } else {
@@ -142,6 +148,9 @@ void emitCommand() {
       lcd.clear();
       lcd.setCursor ( 0, 0 );            
       lcd.print("      Success!      ");
+      lcd.setCursor ( 0, 1 );
+      String scoreString = String(score);            
+      lcd.print("    Score: " + scoreString); 
       delay(1000);
       lcd.clear(); 
     } else {
