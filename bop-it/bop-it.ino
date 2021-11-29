@@ -24,7 +24,7 @@ void setup() {
   pinMode(buttonInput, INPUT);
   pinMode(switchInput, INPUT);
   pinMode(sel, INPUT_PULLUP);
-  timeInterval = 10000;
+  timeInterval = 10300;
   timeIntervalDecrement = 100;
   score = 0;
   gameStarted = false;
@@ -70,6 +70,9 @@ void emitCommand() {
   if (command == 1) {
     tone(buzzer, 250, 1000);
     delay(1000);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("     Push it     ");
     unsigned long startTime = millis();
     while (millis() - startTime < timeInterval) {
       if (digitalRead(buttonInput) == HIGH) {
@@ -101,6 +104,9 @@ void emitCommand() {
   if (command == 2) {
     tone(buzzer, 500, 1000);
     delay(1000);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("   Switch it     ");
     unsigned long startTime = millis();
     while (millis() - startTime < timeInterval) {
       if (digitalRead(switchInput) == HIGH) {
@@ -132,7 +138,10 @@ void emitCommand() {
   if (command == 3) {
     tone(buzzer, 1000, 1000);
     delay(1000);
-    unsigned long startTime = millis();
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("  Joystick it     ");
+    unsigned long startTime = millis();  
     while (millis() - startTime < timeInterval) {
       if (analogRead(vert) > 900) {
         inputPressedWithinInterval = true;
@@ -144,7 +153,7 @@ void emitCommand() {
       timeInterval -= timeIntervalDecrement;
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("      Success!      ");
+      lcd.print("    Success!      ");
       lcd.setCursor(0, 1);
       String scoreString = String(score);
       lcd.print("    Score: " + scoreString);
@@ -153,7 +162,7 @@ void emitCommand() {
     } else {
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print("      Failure!      ");
+      lcd.print("    Failure!      ");
       delay(1000);
       endGame();
     }
